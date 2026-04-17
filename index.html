@@ -1,0 +1,903 @@
+
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bio-Acoustic Hunting Sound Checker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0b1b10;
+      --bg-alt: #122018;
+      --accent: #34c759;
+      --accent-soft: rgba(52, 199, 89, 0.12);
+      --text: #f5f5f5;
+      --muted: #a0a6ad;
+      --border: #26332a;
+      --danger: #ff3b30;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.45);
+      --radius-lg: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #173223 0, #050806 45%, #020302 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(
+        to right,
+        rgba(5, 11, 7, 0.95),
+        rgba(9, 18, 13, 0.95)
+      );
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 20%, #ffffff 0, #f2f2f2 10%, #c0c0c0 30%, #2c2c2c 100%);
+      position: relative;
+      box-shadow: 0 0 0 2px rgba(52,199,89,0.25);
+    }
+
+    .logo-icon::before,
+    .logo-icon::after {
+      content: "";
+      position: absolute;
+      inset: 5px 6px;
+      border-radius: 999px 999px 0 0;
+      border: 2px solid rgba(11, 27, 16, 0.9);
+      border-bottom: none;
+      transform: rotate(-12deg);
+    }
+
+    .logo-icon::after {
+      inset: 8px 9px;
+      border-color: rgba(52, 199, 89, 0.9);
+      opacity: 0.85;
+    }
+
+    .logo-text-main {
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      font-size: 0.98rem;
+      text-transform: uppercase;
+    }
+
+    .logo-text-sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    nav ul {
+      display: flex;
+      gap: 0.75rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.88rem;
+    }
+
+    nav a {
+      padding: 0.25rem 0.5rem;
+      border-radius: 999px;
+      color: var(--muted);
+    }
+
+    nav a:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+      text-decoration: none;
+    }
+
+    .cta-btn {
+      padding: 0.4rem 0.95rem;
+      border-radius: 999px;
+      border: 1px solid rgba(52, 199, 89, 0.4);
+      background: radial-gradient(circle at 0 0, rgba(52,199,89,0.2), transparent 60%);
+      color: #eafff2;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.7), 0 0 25px rgba(52, 199, 89, 0.25);
+    }
+
+    .cta-btn:hover {
+      background: radial-gradient(circle at 100% 0, rgba(52,199,89,0.3), transparent 70%);
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 1.25rem auto 3.5rem;
+      padding: 0 1.25rem;
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(260px, 4fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 850px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .nav-inner {
+        flex-wrap: wrap;
+      }
+      nav ul {
+        flex-wrap: wrap;
+      }
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, #1a3423 0, #060a07 48%, #050806 100%);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 1.3rem 1.4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 10% -10%, rgba(52,199,89,0.12), transparent 40%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.9rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(84, 163, 112, 0.8);
+      background: rgba(5, 18, 10, 0.95);
+      color: #d7ffdf;
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 15px rgba(52,199,89,0.8);
+    }
+
+    h1 {
+      margin: 0.2rem 0;
+      font-size: 1.6rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(8, 23, 12, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--muted);
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      gap: 1.1rem;
+    }
+
+    @media (max-width: 700px) {
+      .grid-two {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .step-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.92rem;
+    }
+
+    .step-list li {
+      display: grid;
+      grid-template-columns: 26px minmax(0, 1fr);
+      gap: 0.65rem;
+      padding: 0.45rem 0;
+    }
+
+    .step-badge {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: rgba(17, 40, 25, 0.95);
+      border: 1px solid rgba(52, 199, 89, 0.4);
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.8);
+    }
+
+    .step-title {
+      font-weight: 600;
+    }
+
+    .step-body {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .compat-card {
+      background: radial-gradient(circle at top right, rgba(52,199,89,0.2), #060807 55%);
+      border-radius: 16px;
+      padding: 0.75rem 0.9rem;
+      border: 1px dashed rgba(255, 255, 255, 0.08);
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+
+    .compat-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+
+    .compat-pill {
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 0.75rem;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      margin: 0 0 0.4rem;
+    }
+
+    .section-sub {
+      font-size: 0.86rem;
+      color: var(--muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .video-list {
+      display: grid;
+      gap: 0.7rem;
+      margin: 0.6rem 0 0;
+      padding: 0;
+      list-style: none;
+      font-size: 0.9rem;
+    }
+
+    .video-item {
+      border-radius: 12px;
+      padding: 0.65rem 0.75rem;
+      background: rgba(6, 11, 8, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 0.6rem;
+    }
+
+    .video-thumb {
+      aspect-ratio: 16 / 9;
+      border-radius: 8px;
+      background: radial-gradient(circle at 30% 20%, #f5f5f5 0, #111 60%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video-thumb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(255,255,255,0.4), transparent 55%),
+        radial-gradient(circle at 70% 20%, rgba(52,199,89,0.25), transparent 60%);
+      mix-blend-mode: screen;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .play-icon {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .play-icon span {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .play-icon span::before {
+      content: "";
+      border-style: solid;
+      border-width: 4px 0 4px 7px;
+      border-color: transparent transparent transparent rgba(255,255,255,0.9);
+      margin-left: 1px;
+    }
+
+    .video-meta-title {
+      font-weight: 600;
+      margin-bottom: 0.15rem;
+    }
+
+    .video-meta-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .video-meta-link {
+      font-size: 0.8rem;
+    }
+
+    .gallery-wrap {
+      margin-top: 0.75rem;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .gallery-row {
+      display: flex;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    .screen-card {
+      flex: 1 1 160px;
+      min-width: 0;
+      max-width: 230px;
+      background: rgba(5, 10, 7, 0.95);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+    }
+
+    .screen-img {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      background: linear-gradient(145deg, #050b06, #16231a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .screen-body {
+      padding: 0.5rem 0.55rem 0.6rem;
+      font-size: 0.8rem;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.25rem;
+    }
+
+    .chip {
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.72rem;
+      padding: 0.1rem 0.45rem;
+      color: var(--muted);
+    }
+
+    aside {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .aside-card {
+      background: radial-gradient(circle at top, #17281d 0, #050806 55%);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 1rem;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.55);
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.4rem;
+    }
+
+    .score-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, rgba(91, 255, 135, 0.25), rgba(10, 24, 15, 0.98));
+      border: 1px solid rgba(91, 255, 135, 0.75);
+      font-size: 0.78rem;
+    }
+
+    .score-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff3b30, #ffcc00, #34c759);
+      box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.7),
+        0 0 20px rgba(52, 199, 89, 0.7);
+    }
+
+    .notice {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    .danger {
+      color: var(--danger);
+      font-weight: 500;
+    }
+
+    footer {
+      max-width: 1100px;
+      margin: 0 auto 2rem;
+      padding: 0 1.25rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-inner">
+      <div class="logo">
+        <div class="logo-icon" aria-hidden="true"></div>
+        <div>
+          <div class="logo-text-main">Hunting Sound Checker</div>
+          <div class="logo-text-sub">Bio-acoustic field assistant</div>
+        </div>
+      </div>
+
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#instructions">Instructions</a></li>
+          <li><a href="#videos">Video Guides</a></li>
+          <li><a href="#screenshots">App Screens</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+
+      <a href="#download" class="cta-btn">Get the App</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- MAIN CONTENT -->
+    <section aria-label="App instructions and overview">
+      <article class="card" id="instructions">
+        <div class="card-header">
+          <span class="pill">
+            <span class="pill-dot"></span>
+            Live Sound Analysis
+          </span>
+        </div>
+
+        <h1>Bio-Acoustic Hunting Sound Checker</h1>
+        <p class="subtitle">
+          Use your iPhone as a field assistant to help estimate whether a heard sound is
+          likely a <strong>real animal call</strong> or a <strong>human / device imitation</strong>
+          based on its acoustic characteristics.
+        </p>
+
+        <div class="tag-row">
+          <span class="tag">Real-time Analysis</span>
+          <span class="tag">Elk · Deer · Turkey</span>
+          <span class="tag">Spectrogram View</span>
+          <span class="tag">Offline Friendly</span>
+        </div>
+
+        <div class="grid-two">
+          <!-- LEFT: INSTRUCTIONS -->
+          <div>
+            <h2 class="section-title">Quick Start</h2>
+            <p class="section-sub">
+              Follow these steps in the field or while reviewing recordings.
+            </p>
+            <ol class="step-list">
+              <li>
+                <div class="step-badge">1</div>
+                <div>
+                  <div class="step-title">Choose the target animal</div>
+                  <div class="step-body">
+                    On the home screen, pick <strong>Elk</strong>, <strong>Deer</strong>, or
+                    <strong>Turkey</strong>. The app automatically loads the correct
+                    acoustic model and score weights for that species.
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="step-badge">2</div>
+                <div>
+                  <div class="step-title">Let the phone “listen”</div>
+                  <div class="step-body">
+                    Hold the iPhone with the microphone pointed toward the sound source.
+                    The app continuously fills a 5-second buffer with audio from the
+                    built-in mic while you wait for a call.
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="step-badge">3</div>
+                <div>
+                  <div class="step-title">Tap <em>Analyze</em></div>
+                  <div class="step-body">
+                    After the call finishes, tap the <strong>Analyze</strong> button.
+                    The app runs a set of bio-acoustic checks (pitch stability, harmonics,
+                    band energy, noise, envelope shape, etc.) and computes a
+                    <strong>0–1 score</strong> for “likely real”.
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="step-badge">4</div>
+                <div>
+                  <div class="step-title">Read the score &amp; spectrogram</div>
+                  <div class="step-body">
+                    The score widget changes color from <span style="color:#ff3b30;">red</span>
+                    (very synthetic) to <span style="color:#34c759;">green</span> (very natural),
+                    and the spectrogram shows the frequency structure of the call over time.
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="step-badge">5</div>
+                <div>
+                  <div class="step-title">Adjust sensitivity (optional)</div>
+                  <div class="step-body">
+                    In <strong>Settings</strong>, you can tweak how strict the app is. If you
+                    want to flag more “maybe real” calls, reduce strictness. If you only
+                    want very clean, natural calls to score high, increase strictness.
+                  </div>
+                </div>
+              </li>
+            </ol>
+
+            <div class="compat-card" id="download">
+              <strong>Availability</strong><br />
+              The Hunting Sound Checker app is designed for iPhone.
+              <div class="compat-row">
+                <span class="compat-pill">iOS • iPhone</span>
+                <span class="compat-pill">Optimized for outdoor use</span>
+              </div>
+              <!-- Replace with actual App Store link when ready -->
+              <p style="margin-top:0.5rem;">
+                App Store link: <em>coming soon</em>
+              </p>
+            </div>
+          </div>
+
+          <!-- RIGHT: VIDEOS -->
+          <div id="videos">
+            <h2 class="section-title">Video Guides</h2>
+            <p class="section-sub">
+              Watch short tutorials on how to use the app, interpret scores,
+              and understand the bio-acoustic features.
+            </p>
+
+            <ul class="video-list">
+              <li class="video-item">
+                <a
+                  class="video-thumb"
+                  href="https://www.youtube.com/watch?v=YOUR_INTRO_VIDEO_ID"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Open YouTube intro video"
+                >
+                  <div class="play-icon">
+                    <span></span>
+                  </div>
+                </a>
+                <div>
+                  <div class="video-meta-title">1. App Overview &amp; Setup</div>
+                  <div class="video-meta-desc">
+                    Install the app, choose species, and learn what the score means.
+                  </div>
+                  <div class="video-meta-link">
+                    <a
+                      href="https://www.youtube.com/watch?v=YOUR_INTRO_VIDEO_ID"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >Watch on YouTube</a>
+                  </div>
+                </div>
+              </li>
+
+              <li class="video-item">
+                <a
+                  class="video-thumb"
+                  href="https://www.youtube.com/watch?v=YOUR_FIELD_VIDEO_ID"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Open YouTube field example video"
+                >
+                  <div class="play-icon">
+                    <span></span>
+                  </div>
+                </a>
+                <div>
+                  <div class="video-meta-title">2. Field Examples</div>
+                  <div class="video-meta-desc">
+                    Real recordings of elk, deer, and turkey calls with side-by-side
+                    human imitations.
+                  </div>
+                  <div class="video-meta-link">
+                    <a
+                      href="https://www.youtube.com/watch?v=YOUR_FIELD_VIDEO_ID"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >Watch on YouTube</a>
+                  </div>
+                </div>
+              </li>
+
+              <li class="video-item">
+                <a
+                  class="video-thumb"
+                  href="https://www.youtube.com/watch?v=YOUR_ACOUSTIC_VIDEO_ID"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Open YouTube acoustic deep dive"
+                >
+                  <div class="play-icon">
+                    <span></span>
+                  </div>
+                </a>
+                <div>
+                  <div class="video-meta-title">3. Acoustic Deep-Dive</div>
+                  <div class="video-meta-desc">
+                    How the app uses pitch, harmonics, noise and timing to score calls.
+                  </div>
+                  <div class="video-meta-link">
+                    <a
+                      href="https://www.youtube.com/watch?v=YOUR_ACOUSTIC_VIDEO_ID"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >Watch on YouTube</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- SCREENSHOTS -->
+      <article class="card" id="screenshots">
+        <h2 class="section-title">Example App Screens</h2>
+        <p class="section-sub">
+          These screenshots show the main views of the Hunting Sound Checker app.
+          Replace the placeholders with real PNGs from your Xcode builds.
+        </p>
+
+        <div class="gallery-wrap">
+          <div class="gallery-row">
+            <div class="screen-card">
+              <!-- Replace src with your screenshot: e.g. /images/home-screen.png -->
+              <div class="screen-img">
+                Home Screen<br />[placeholder image]
+              </div>
+              <div class="screen-body">
+                <strong>Home / Species Selection</strong>
+                <p>
+                  Choose which animal you’re listening for and see main status indicators.
+                </p>
+                <div class="chip-row">
+                  <span class="chip">Elk</span>
+                  <span class="chip">Deer</span>
+                  <span class="chip">Turkey</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="screen-card">
+              <div class="screen-img">
+                Spectrogram<br />[placeholder image]
+              </div>
+              <div class="screen-body">
+                <strong>Spectrogram View</strong>
+                <p>
+                  View a log-frequency spectrogram of the last few seconds of audio and
+                  see where the call energy lives.
+                </p>
+                <div class="chip-row">
+                  <span class="chip">Log-freq axis</span>
+                  <span class="chip">Time vs pitch</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="screen-card">
+              <div class="screen-img">
+                Score Widget<br />[placeholder image]
+              </div>
+              <div class="screen-body">
+                <strong>Score &amp; Features</strong>
+                <p>
+                  See the 0–1 score, color-coded confidence, and key feature metrics
+                  (HNR, band energies, envelope, etc.).
+                </p>
+                <div class="chip-row">
+                  <span class="chip">Score 0–1</span>
+                  <span class="chip">Red → Green</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="section-sub" style="margin-top:0.4rem;">
+            <strong>Tip:</strong> export screenshots from Xcode’s simulator and swap the
+            placeholder blocks above with real <code>&lt;img src="..." /&gt;</code> tags.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <!-- SIDEBAR -->
+    <aside>
+      <section class="aside-card" id="faq">
+        <h3 style="margin-top:0;">How the score works</h3>
+        <p>
+          The app does <strong>not</strong> guarantee that a call is real or fake. Instead,
+          it analyzes the sound and estimates how closely it matches typical
+          bio-acoustic patterns for natural calls.
+        </p>
+        <div class="badge-row">
+          <span class="score-pill">
+            <span class="score-dot"></span>
+            Score 0.00 – 1.00
+          </span>
+        </div>
+        <ul style="padding-left:1rem; margin-top:0.6rem; font-size:0.86rem;">
+          <li><strong>0.0 – 0.3:</strong> very synthetic / unlikely natural</li>
+          <li><strong>0.3 – 0.7:</strong> mixed evidence / uncertain</li>
+          <li><strong>0.7 – 1.0:</strong> strongly natural-like</li>
+        </ul>
+        <p class="notice">
+          Always combine the app’s score with your own judgment, regulations,
+          and local conditions. This is a decision-support tool, not a
+          rule-making device.
+        </p>
+      </section>
+
+      <section class="aside-card">
+        <h3 style="margin-top:0;">Field Tips</h3>
+        <ul style="padding-left:1rem; margin:0; font-size:0.86rem;">
+          <li>Keep the iPhone mic unobstructed (no case over the mic ports).</li>
+          <li>Avoid rubbing noises, wind directly on the mic, or loud talking.</li>
+          <li>Use headphones if you want to replay recorded calls around others.</li>
+          <li>Note weather conditions (wind, rain, heavy fog can affect acoustics).</li>
+        </ul>
+      </section>
+
+      <section class="aside-card">
+        <h3 style="margin-top:0;">Ethics &amp; Legal Notice</h3>
+        <p class="notice">
+          <span class="danger">Important:</span> Hunting regulations vary by state and
+          country. Some areas restrict electronic calls, recordings, or
+          certain technologies in the field.
+        </p>
+        <p class="notice">
+          You are responsible for knowing and following all local laws and
+          ethical hunting guidelines. This app is for information and education
+          and does not replace regulations, licenses, or common-sense fieldcraft.
+        </p>
+      </section>
+    </aside>
+  </main>
+
+  <footer>
+    <div>
+      &copy; <span id="year"></span> Hunting Sound Checker. All rights reserved.
+    </div>
+    <div>
+      This site does not store audio recordings; it describes the mobile app only.
+    </div>
+  </footer>
+
+  <script>
+    // Simple dynamic year
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
