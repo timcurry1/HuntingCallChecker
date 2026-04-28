@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Bio-Acoustic Hunting Sound Checker</title>
+  <title>Bio-Acoustic Hunting Call Checker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
@@ -71,43 +71,13 @@
       gap: 0.6rem;
     }
 
-    .logo-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 20%, #ffffff 0, #f2f2f2 10%, #c0c0c0 30%, #2c2c2c 100%);
-      position: relative;
-      box-shadow: 0 0 0 2px rgba(52,199,89,0.25);
-    }
-
-    .logo-icon::before,
-    .logo-icon::after {
-      content: "";
-      position: absolute;
-      inset: 5px 6px;
-      border-radius: 999px 999px 0 0;
-      border: 2px solid rgba(11, 27, 16, 0.9);
-      border-bottom: none;
-      transform: rotate(-12deg);
-    }
-
-    .logo-icon::after {
-      inset: 8px 9px;
-      border-color: rgba(52, 199, 89, 0.9);
-      opacity: 0.85;
-    }
-
-    .logo-text-main {
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      font-size: 0.98rem;
-      text-transform: uppercase;
-    }
-
-    .logo-text-sub {
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
+	.logo-icon {
+	  width: 42px;              /* adjust size */
+	  height: 42px;
+	  object-fit: contain;      /* keeps PNG proportions */
+	  display: block;
+	  border-radius: 10px;      /* optional */
+	}
 
     nav ul {
       display: flex;
@@ -417,27 +387,35 @@
       font-size: 0.8rem;
     }
 
-    .gallery-wrap {
-      margin-top: 0.75rem;
-      display: grid;
-      gap: 0.75rem;
-    }
+	.gallery-wrap {
+	  margin-top: 0.75rem;
+	}
 
-    .gallery-row {
-      display: flex;
-      gap: 0.65rem;
-      flex-wrap: wrap;
-    }
+	.gallery-row {
+	  display: grid;
+	  grid-template-columns: repeat(3, 1fr);
+	  gap: 0.75rem;
+	}
 
-    .screen-card {
-      flex: 1 1 160px;
-      min-width: 0;
-      max-width: 230px;
-      background: rgba(5, 10, 7, 0.95);
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      overflow: hidden;
-    }
+	.screen-card {
+	  min-width: 0;
+	  background: rgba(5, 10, 7, 0.95);
+	  border-radius: 14px;
+	  border: 1px solid rgba(255, 255, 255, 0.06);
+	  overflow: hidden;
+	}
+
+	@media (max-width: 800px) {
+	  .gallery-row {
+		grid-template-columns: repeat(2, 1fr);
+	  }
+	}
+
+	@media (max-width: 520px) {
+	  .gallery-row {
+		grid-template-columns: 1fr;
+	  }
+	}
 
     .screen-img {
       width: 100%;
@@ -536,15 +514,46 @@
       border-top: 1px solid rgba(255, 255, 255, 0.06);
       padding-top: 0.9rem;
     }
+	.gear-item {
+	  margin-bottom: 0.8rem;
+	  padding-bottom: 0.6rem;
+	  border-bottom: 1px solid rgba(255,255,255,0.05);
+	}
+
+	.gear-title {
+	  font-weight: 600;
+	  margin-bottom: 0.2rem;
+	}
+
+	.gear-desc {
+	  font-size: 0.82rem;
+	  color: var(--muted);
+	  margin-bottom: 0.3rem;
+	}
+
+	.gear-link {
+	  font-size: 0.8rem;
+	  color: var(--accent);
+	}
+	.screen-photo {
+	  width: 100%;
+	  height: 100%;
+	  object-fit: contain; /* shows full image, may leave empty bars */
+	  display: block;
+	}
   </style>
 </head>
 <body>
   <header>
     <div class="nav-inner">
       <div class="logo">
-        <div class="logo-icon" aria-hidden="true"></div>
+        <img
+		  src="images/app_icon.PNG"
+		  alt="Hunting Call Checker Logo"
+		  class="logo-icon"
+		/>
         <div>
-          <div class="logo-text-main">Hunting Sound Checker</div>
+          <div class="logo-text-main">Hunting Call Checker</div>
           <div class="logo-text-sub">Bio-acoustic field assistant</div>
         </div>
       </div>
@@ -552,13 +561,20 @@
       <nav aria-label="Primary">
         <ul>
           <li><a href="#instructions">Instructions</a></li>
+		  <li><a href="book.html">Book</a></li>
           <li><a href="#videos">Video Guides</a></li>
           <li><a href="#screenshots">App Screens</a></li>
-          <li><a href="#faq">FAQ</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+		  <li><a href="gear.html">Gear</a></li>
         </ul>
       </nav>
 
-      <a href="#download" class="cta-btn">Get the App</a>
+      <a href="https://apps.apple.com/us/app/HuntingCallChecker/id00009"
+		   class="cta-btn"
+		   target="_blank"
+		   rel="noopener noreferrer">
+		   Get the App
+		</a>
     </div>
   </header>
 
@@ -573,7 +589,7 @@
           </span>
         </div>
 
-        <h1>Bio-Acoustic Hunting Sound Checker</h1>
+        <h1>Bio-Acoustic Hunting Call Checker</h1>
         <p class="subtitle">
           Use your iPhone as a field assistant to help estimate whether a heard sound is
           likely a <strong>real animal call</strong> or a <strong>human / device imitation</strong>
@@ -655,7 +671,7 @@
 
             <div class="compat-card" id="download">
               <strong>Availability</strong><br />
-              The Hunting Sound Checker app is designed for iPhone.
+              The Hunting Call Checker app is designed for iPhone.
               <div class="compat-row">
                 <span class="compat-pill">iOS • iPhone</span>
                 <span class="compat-pill">Optimized for outdoor use</span>
@@ -766,34 +782,46 @@
       <article class="card" id="screenshots">
         <h2 class="section-title">Example App Screens</h2>
         <p class="section-sub">
-          These screenshots show the main views of the Hunting Sound Checker app.
+          These screenshots show the main views of the Hunting Call Checker app.
           Replace the placeholders with real PNGs from your Xcode builds.
         </p>
 
         <div class="gallery-wrap">
-          <div class="gallery-row">
+			<div class="gallery-row">
+		  
+				<div class="screen-card">
+				  <div class="screen-img">
+				  <img
+					src="images/front_page_app.PNG"
+					alt="Hunting Call Checker home screen"
+					class="screen-photo"
+				  />
+				  </div>
+				  
+				  <div class="screen-body">
+					<strong>Home / Species Selection</strong>
+					<p>
+					  Choose which animal you’re listening for and see main status indicators.
+					</p>
+					<div class="chip-row">
+					  <span class="chip">Elk and Moose</span>
+					  <span class="chip">Deer</span>
+					  <span class="chip">Turkey</span>
+					  <span class="chip">Preditors</span>
+					</div>
+				  </div>
+				</div>
+			
+			
+			<!-- CARD 2 -->
             <div class="screen-card">
-              <!-- Replace src with your screenshot: e.g. /images/home-screen.png -->
-              <div class="screen-img">
-                Home Screen<br />[placeholder image]
-              </div>
-              <div class="screen-body">
-                <strong>Home / Species Selection</strong>
-                <p>
-                  Choose which animal you’re listening for and see main status indicators.
-                </p>
-                <div class="chip-row">
-                  <span class="chip">Elk</span>
-                  <span class="chip">Deer</span>
-                  <span class="chip">Turkey</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="screen-card">
-              <div class="screen-img">
-                Spectrogram<br />[placeholder image]
-              </div>
+ 			<div class="screen-img">
+			  <img
+				src="images/spectrogram.png"
+				alt="Hunting Call Checker home screen"
+				class="screen-photo"
+			  />
+			</div>
               <div class="screen-body">
                 <strong>Spectrogram View</strong>
                 <p>
@@ -806,60 +834,79 @@
                 </div>
               </div>
             </div>
+			
+			
 
             <div class="screen-card">
-              <div class="screen-img">
-                Score Widget<br />[placeholder image]
-              </div>
+				<div class="screen-img">
+				  <img
+					src="images/whitetail_grunt.PNG"
+					alt="Hunting Call Checker home screen"
+					class="screen-photo"
+				  />
+				  </div>
+				
+				  <div class="screen-body">
+					<strong>Score &amp; Features</strong>
+					<p>
+					  See the 0–1 score, color-coded confidence, and key feature metrics
+					  (HNR, band energies, envelope, etc.).
+					</p>
+					<div class="chip-row">
+					  <span class="chip">Score 0–1</span>
+					  <span class="chip">Red → Green</span>
+					</div>
+				  </div>
+			  </div>
+			  
+			  
+				  <div class="screen-card">
+					  <div class="screen-img">
+					  <img
+						src="images/whitetail_grunt_details.PNG"
+						alt="Hunting Call Checker2 home screen"
+						class="screen-photo"
+					  />
+					  </div>
+					  
+					  <div class="screen-body">
+						<strong>Score &amp; Features</strong>
+						<p>
+						  See the in-depth feature outputs of the microphone's input.
+						</p>
+						<div class="chip-row">
+						</div>
+					  </div>
+				   </div>
+			  
+			  
+			  
+			  <div class="screen-card">
+			  <div class="screen-img">
+			  <img
+				src="images/settings.png"
+				alt="Hunting Call Checker3 home screen"
+				class="screen-photo"
+			  />
+			  </div>
+			  
               <div class="screen-body">
                 <strong>Score &amp; Features</strong>
                 <p>
-                  See the 0–1 score, color-coded confidence, and key feature metrics
-                  (HNR, band energies, envelope, etc.).
+                  Use the settings to change important parameters. Press the playback button to hear the captured sound again.
                 </p>
-                <div class="chip-row">
-                  <span class="chip">Score 0–1</span>
-                  <span class="chip">Red → Green</span>
-                </div>
               </div>
-            </div>
+			  </div>
+			  
+           
           </div>
 
-          <p class="section-sub" style="margin-top:0.4rem;">
-            <strong>Tip:</strong> export screenshots from Xcode’s simulator and swap the
-            placeholder blocks above with real <code>&lt;img src="..." /&gt;</code> tags.
-          </p>
         </div>
       </article>
     </section>
 
     <!-- SIDEBAR -->
     <aside>
-      <section class="aside-card" id="faq">
-        <h3 style="margin-top:0;">How the score works</h3>
-        <p>
-          The app does <strong>not</strong> guarantee that a call is real or fake. Instead,
-          it analyzes the sound and estimates how closely it matches typical
-          bio-acoustic patterns for natural calls.
-        </p>
-        <div class="badge-row">
-          <span class="score-pill">
-            <span class="score-dot"></span>
-            Score 0.00 – 1.00
-          </span>
-        </div>
-        <ul style="padding-left:1rem; margin-top:0.6rem; font-size:0.86rem;">
-          <li><strong>0.0 – 0.3:</strong> very synthetic / unlikely natural</li>
-          <li><strong>0.3 – 0.7:</strong> mixed evidence / uncertain</li>
-          <li><strong>0.7 – 1.0:</strong> strongly natural-like</li>
-        </ul>
-        <p class="notice">
-          Always combine the app’s score with your own judgment, regulations,
-          and local conditions. This is a decision-support tool, not a
-          rule-making device.
-        </p>
-      </section>
-
       <section class="aside-card">
         <h3 style="margin-top:0;">Field Tips</h3>
         <ul style="padding-left:1rem; margin:0; font-size:0.86rem;">
@@ -868,8 +915,7 @@
           <li>Use headphones if you want to replay recorded calls around others.</li>
           <li>Note weather conditions (wind, rain, heavy fog can affect acoustics).</li>
         </ul>
-      </section>
-
+	  </section>
       <section class="aside-card">
         <h3 style="margin-top:0;">Ethics &amp; Legal Notice</h3>
         <p class="notice">
@@ -888,7 +934,7 @@
 
   <footer>
     <div>
-      &copy; <span id="year"></span> Hunting Sound Checker. All rights reserved.
+      &copy; <span id="year"></span> Hunting Call Checker. All rights reserved.
     </div>
     <div>
       This site does not store audio recordings; it describes the mobile app only.
