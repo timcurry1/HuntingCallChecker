@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>The Book | Hearing the Hunt</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0b1b10;
+      --bg-alt: #122018;
+      --accent: #34c759;
+      --accent-soft: rgba(52, 199, 89, 0.12);
+      --text: #f5f5f5;
+      --muted: #a0a6ad;
+      --border: #26332a;
+      --danger: #ff3b30;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.45);
+      --radius-lg: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #173223 0, #050806 45%, #020302 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(to right, rgba(5, 11, 7, 0.95), rgba(9, 18, 13, 0.95));
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .nav-inner {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo-text-main {
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      font-size: 0.98rem;
+      text-transform: uppercase;
+    }
+
+    .logo-text-sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    nav ul {
+      display: flex;
+      gap: 0.75rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.88rem;
+    }
+
+    nav a {
+      padding: 0.25rem 0.5rem;
+      border-radius: 999px;
+      color: var(--muted);
+    }
+
+    nav a:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1050px;
+      margin: 1.25rem auto 3.5rem;
+      padding: 0 1.25rem;
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, #1a3423 0, #060a07 48%, #050806 100%);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 1.4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 10% -10%, rgba(52,199,89,0.12), transparent 40%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .card > * { position: relative; z-index: 2; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(84, 163, 112, 0.8);
+      background: rgba(5, 18, 10, 0.95);
+      color: #d7ffdf;
+      margin-bottom: 0.65rem;
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 15px rgba(52,199,89,0.8);
+    }
+
+    h1 {
+      margin: 0.2rem 0 0.35rem;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      line-height: 1.1;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.15rem;
+    }
+
+    p { color: var(--muted); }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.8fr);
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+
+    @media (max-width: 800px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .nav-inner { flex-wrap: wrap; }
+      nav ul { flex-wrap: wrap; }
+    }
+
+    .book-cover {
+      min-height: 360px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background:
+        linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.45)),
+        radial-gradient(circle at 50% 20%, rgba(52,199,89,0.32), transparent 35%),
+        linear-gradient(145deg, #111f16, #030503);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1.5rem;
+      color: #eafff2;
+    }
+
+    .book-cover strong {
+      display: block;
+      font-size: 1.45rem;
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+
+    .book-cover span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 1rem;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.55rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(52, 199, 89, 0.4);
+      background: radial-gradient(circle at 0 0, rgba(52,199,89,0.2), transparent 60%);
+      color: #eafff2;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.7), 0 0 25px rgba(52, 199, 89, 0.25);
+    }
+
+    .secondary-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.55rem 0.2rem;
+      font-size: 0.9rem;
+    }
+
+    .grid-three {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    @media (max-width: 850px) {
+      .grid-three { grid-template-columns: 1fr; }
+    }
+
+    .mini-card {
+      background: rgba(6, 11, 8, 0.95);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 1rem;
+    }
+
+    .mini-card h3 {
+      margin: 0 0 0.35rem;
+      font-size: 1rem;
+    }
+
+    .mini-card p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    .chapter-list {
+      display: grid;
+      gap: 0.75rem;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .chapter-list li {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 0.65rem;
+      align-items: start;
+    }
+
+    .chapter-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      background: rgba(17, 40, 25, 0.95);
+      border: 1px solid rgba(52, 199, 89, 0.4);
+    }
+
+    .chapter-title {
+      color: var(--text);
+      font-weight: 700;
+      margin-bottom: 0.1rem;
+    }
+
+    .notice {
+      font-size: 0.85rem;
+      color: var(--muted);
+      border-left: 3px solid var(--accent);
+      padding-left: 0.85rem;
+      margin-top: 1rem;
+    }
+
+    footer {
+      max-width: 1050px;
+      margin: 0 auto 2rem;
+      padding: 0.9rem 1.25rem 0;
+      font-size: 0.78rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+  </style>
+  <style>
+.book-cover-frame {
+  width: 320px;
+  height: 480px;
+  margin: 0 auto;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.08);
+  background: #111;
+}
+
+.book-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.book-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  background: #34c759;
+  color: #050806;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.book-btn:hover {
+  background: #2ebd50;
+}
+.book-click-text {
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #d7ffdf;
+  letter-spacing: 0.03em;
+}
+</style>
+</head>
+<body>
+  <header>
+    <div class="nav-inner">
+      <div>
+        <div class="logo-text-main">Hearing the Hunt</div>
+        <div class="logo-text-sub">Book + app field companion</div>
+      </div>
+
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="gear.html">Recommended Gear</a></li>
+          <li><a href="index.html#download">Get the App</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-grid">
+      <article class="card">
+        <span class="pill"><span class="pill-dot"></span> Field Safety + Sound Awareness</span>
+        <h1>Hearing the Hunt Book</h1>
+        <p>
+          This book is written for hunters, outdoor families, new callers, and anyone who wants to better understand the sounds they hear in the field. It explains how animal calls, human imitations, wind, distance, terrain, and recording conditions can affect what you think you hear. The biggest advantage of learning animal sound features it that you will stop waisting time chasing other hunters imitating calls.
+        </p>
+        <p>
+          The goal is simple: help hunters make safer, slower, more informed decisions before moving toward a sound or assuming what made it.
+        </p>
+		<p>Click on the image on the right to purchase the book at Google Play. This is a perfect gift to keep your love ones safe from other hunters.</p>
+
+      </article>
+
+<aside aria-label="Book cover" style="text-align:center;">
+
+  <a
+    href="https://play.google.com/store/books/details/Tim_Curry_Hearing_the_Hunt?id=1Uu7EQAAQBAJ&hl=en_US"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="book-cover-frame"
+  >
+    <img
+      src="images/BookCover.jpeg"
+      alt="Hearing the Hunt Book Cover"
+      class="book-cover"
+    />
+  </a>
+
+</aside>
+    </section>
+
+    <section class="grid-three">
+      <article class="mini-card">
+        <h3>Understand Calls</h3>
+        <p>Learn how pitch, rhythm, harmonics, breath noise, and timing shape common hunting sounds.</p>
+      </article>
+
+      <article class="mini-card">
+        <h3>Reduce Mistakes</h3>
+        <p>Recognize why echoes, wind, distance, and human imitation can make sound identification unreliable.</p>
+      </article>
+
+      <article class="mini-card">
+        <h3>Use the App Better</h3>
+        <p>See how the Hunting Call Checker app supports field judgment without replacing it.</p>
+      </article>
+    </section>
+
+    <article class="card">
+      <h2>What the Book Covers</h2>
+      <ul class="chapter-list">
+        <li>
+          <div class="chapter-num">1</div>
+          <div>
+            <div class="chapter-title">Why Sound Identification Matters</div>
+            <p>How false assumptions in the woods can create confusion, poor decisions, and safety risks.</p>
+          </div>
+        </li>
+        <li>
+          <div class="chapter-num">2</div>
+          <div>
+            <div class="chapter-title">Animal Calls vs. Human Imitations</div>
+            <p>What makes a natural call sound organic, and why some artificial calls sound too clean, too steady, or too patterned.</p>
+          </div>
+        </li>
+        <li>
+          <div class="chapter-num">3</div>
+          <div>
+            <div class="chapter-title">Field Conditions That Change Sound</div>
+            <p>Wind, terrain, trees, rain, fog, distance, and phone microphone position all affect what reaches your ears.</p>
+          </div>
+        </li>
+        <li>
+          <div class="chapter-num">4</div>
+          <div>
+            <div class="chapter-title">Using Technology Responsibly</div>
+            <p>How to use audio analysis as one source of information while still following laws, ethics, and safe hunting practices.</p>
+          </div>
+        </li>
+        <li>
+          <div class="chapter-num">5</div>
+          <div>
+            <div class="chapter-title">Practical Field Habits</div>
+            <p>Slow down, confirm your target, know what is beyond it, and never rely on sound alone before taking action.</p>
+          </div>
+        </li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <h2>How the Book Connects to the App</h2>
+      <p>
+        Hunting Call Checker analyzes acoustic features such as pitch stability, call timing, harmonic structure, and noise. The book explains those ideas in plain language so users understand why the app may score one sound as natural-like and another as uncertain or synthetic-like.
+      </p>
+      <p>
+        The app is not intended to replace judgment, local laws, safe firearm handling, or ethical hunting behavior. It gives users another way to think about sound before making field decisions.
+      </p>
+      <p class="notice">
+        Safety reminder: never identify a target by sound alone. Always visually confirm what you are seeing, know what is beyond it, and follow all local hunting regulations.
+      </p>
+    </article>
+  </main>
+
+  <footer>
+    &copy; <span id="year"></span> Hearing the Hunt. All rights reserved.
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

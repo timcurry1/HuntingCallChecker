@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Recommended Gear | Hunting Sound Checker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0b1b10;
+      --accent: #34c759;
+      --text: #f5f5f5;
+      --muted: #a0a6ad;
+      --border: #26332a;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.45);
+      --radius-lg: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #173223 0, #050806 45%, #020302 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(to right, rgba(5, 11, 7, 0.95), rgba(9, 18, 13, 0.95));
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo-text-main {
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      font-size: 0.98rem;
+      text-transform: uppercase;
+    }
+
+    .logo-text-sub { font-size: 0.78rem; color: var(--muted); }
+
+    nav ul {
+      display: flex;
+      gap: 0.75rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.88rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      padding: 0.25rem 0.5rem;
+      border-radius: 999px;
+      color: var(--muted);
+    }
+
+    nav a:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 1.25rem auto 3.5rem;
+      padding: 0 1.25rem;
+    }
+
+    .hero {
+      background: radial-gradient(circle at top left, #1a3423 0, #060a07 48%, #050806 100%);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 1.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    h1 { margin: 0 0 0.4rem; font-size: 1.7rem; }
+    .subtitle { color: var(--muted); margin: 0; max-width: 760px; }
+
+    .gear-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    @media (max-width: 850px) {
+      .nav-inner { flex-wrap: wrap; }
+      .gear-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    .gear-card {
+      background: radial-gradient(circle at top, #17281d 0, #050806 55%);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.55);
+      overflow: hidden;
+    }
+
+    .gear-image {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      display: block;
+      object-fit: cover;
+      background: linear-gradient(145deg, #050b06, #16231a);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .gear-body { padding: 1rem; }
+    .gear-title { font-weight: 700; font-size: 1.05rem; margin-bottom: 0.35rem; }
+    .gear-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem; }
+
+    .gear-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(52, 199, 89, 0.4);
+      background: radial-gradient(circle at 0 0, rgba(52,199,89,0.2), transparent 60%);
+      color: #eafff2;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .gear-link:hover { text-decoration: none; }
+
+    .image-note {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 1rem;
+    }
+
+    code {
+      color: #eafff2;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
+      padding: 0.08rem 0.3rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-inner">
+      <div>
+        <div class="logo-text-main">Hunting Sound Checker</div>
+        <div class="logo-text-sub">Recommended field gear</div>
+      </div>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="https://apps.apple.com/us/app/HuntingCallChecker/id00009" target="_blank" rel="noopener noreferrer">Get the App</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Recommended Gear</h1>
+      <p class="subtitle">
+        These accessories can help capture cleaner sound in the field by reducing wind, improving microphone directionality, and keeping your phone secure.
+      </p>
+    </section>
+
+    <section class="gear-grid" aria-label="Recommended gear items">
+      <article class="gear-card">
+        <img class="gear-image" src="images/cardiod.jpg" alt="Directional shotgun microphone" />
+        <div class="gear-body">
+          <div class="gear-title">Directional Shotgun Mic</div>
+          <div class="gear-desc">
+            Improves call detection accuracy by isolating animal sounds and reducing background noise.
+          </div>
+          <a href="https://a.co/d/09vlURD6" target="_blank" rel="noopener noreferrer" class="gear-link">View on Amazon</a>
+        </div>
+      </article>
+
+      <article class="gear-card">
+        <img class="gear-image" src="images/amazon_mic.jpg" alt="Portable wind muff for microphone" />
+        <div class="gear-body">
+          <div class="gear-title">Portable Wind Muff</div>
+          <div class="gear-desc">
+            Reduces wind noise interference for cleaner spectrogram analysis. Replace this placeholder with your exact microphone or wind muff product.
+          </div>
+          <a href="YOUR_AMAZON_LINK" target="_blank" rel="noopener noreferrer" class="gear-link">View on Amazon</a>
+        </div>
+      </article>
+
+      <article class="gear-card">
+        <img class="gear-image" src="images/lanyard.jpg" alt="Phone lanyard for carrying an iPhone in the field" />
+        <div class="gear-body">
+          <div class="gear-title">Phone Lanyard</div>
+          <div class="gear-desc">
+            Keeps your iPhone secure and accessible while walking, scouting, or recording calls outdoors.
+          </div>
+          <a href="https://a.co/d/0h6fdN6B" target="_blank" rel="noopener noreferrer" class="gear-link">View on Amazon</a>
+        </div>
+      </article>
+    </section>
+
+    <p class="image-note">
+      Place your product images in an <code>images</code> folder beside this file. Use these filenames: <code>directional-shotgun-mic.jpg</code>, <code>portable-wind-muff.jpg</code>, and <code>phone-lanyard.jpg</code>.
+    </p>
+  </main>
+</body>
+</html>
